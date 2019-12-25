@@ -1,16 +1,5 @@
-node_modules/**/*
-.expo/*
-npm-debug.*
-*.jks
-*.p8
-*.p12
-*.key
-*.mobileprovision
-*.orig.*
-web-build/
-web-report/
-
-# macOS
+# OSX
+#
 .DS_Store
 
 # Xcode
@@ -40,12 +29,11 @@ build/
 local.properties
 *.iml
 
-
-# Bundle artifact
-*.jsbundle
-
-# CocoaPods
-/ios/Pods/
+# node.js
+#
+node_modules/
+npm-debug.log
+yarn-error.log
 
 # BUCK
 buck-out/
@@ -63,3 +51,9 @@ buck-out/
 */fastlane/report.xml
 */fastlane/Preview.html
 */fastlane/screenshots
+
+# Bundle artifact
+*.jsbundle
+
+# CocoaPods
+/ios/Pods/
