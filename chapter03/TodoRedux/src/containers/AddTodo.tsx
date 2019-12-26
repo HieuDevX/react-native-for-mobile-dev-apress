@@ -1,30 +1,16 @@
 import React, { FunctionComponent, useState, useCallback } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  Button,
-} from 'react-native';
-// import { Ionicons } from '@expo/vector-icons'
-import { bindActionCreators, Dispatch, ActionCreatorsMapObject } from 'redux';
+import { View, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import { connect, ConnectedProps } from 'react-redux';
 import { addTodo } from '../actions';
-import { ApplicationState, Actions, ActionTypes } from 'src/types';
+import { ApplicationState } from 'src/types';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const mapStateToProps = (store: ApplicationState) => ({});
 
-// const mapDispatchToProps = (dispatch: Dispatch<Actions>) =>
-//   bindActionCreators(
-//     {
-//       addTodo: ActionTypes.ADD_TODO,
-//     },
-//     dispatch,
-//   );
-
-const mapDispatchToProps = {
-  addTodo: (text: string) => ({ type: ActionTypes.ADD_TODO }),
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    addTodo: (text: string) => dispatch(addTodo(text)),
+  };
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -35,21 +21,22 @@ type Props = PropsFromRedux;
 const AddTodo: FunctionComponent<Props> = props => {
   const [text, setText] = useState<string>('');
 
-  const addTodo = useCallback(() => {
+  const handleAddTodo = useCallback(() => {
+    console.log(`handle add`, text);
     props.addTodo(text);
     setText('');
-  }, [props]);
+  }, [text]);
 
-  const handleChangeText = useCallback((text: string) => {
+  const handleTextChange = useCallback(text => {
     setText(text);
   }, []);
 
   return (
     <View style={{ flexDirection: 'row', marginHorizontal: 20 }}>
       <TextInput
-        onChangeText={handleChangeText}
+        onChangeText={handleTextChange}
         value={text}
-        placeholder="Eg. Create New Video"
+        placeholder="Eg. Add something just like this"
         style={{
           borderWidth: 1,
           borderColor: '#f2f2e1',
@@ -58,9 +45,9 @@ const AddTodo: FunctionComponent<Props> = props => {
           flex: 1,
           padding: 5,
         }}
+        onSubmitEditing={handleAddTodo}
       />
-      {/* <TouchableOpacity onPress={() => this.addTodo(this.state.text)}> */}
-      <TouchableOpacity onPress={addTodo}>
+      <TouchableOpacity onPress={handleAddTodo}>
         <View
           style={{
             height: 50,
@@ -68,8 +55,7 @@ const AddTodo: FunctionComponent<Props> = props => {
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          {/* <Ionicons name="md-add" size={30} style={{ color: '#de9595', padding: 10 }} /> */}
-          <Button title="+" onPress={() => {}} />
+          <Icon name="add" size={20} color="#de9595" style={{ padding: 10 }} />
         </View>
       </TouchableOpacity>
     </View>
@@ -77,11 +63,3 @@ const AddTodo: FunctionComponent<Props> = props => {
 };
 
 export default connector(AddTodo);
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

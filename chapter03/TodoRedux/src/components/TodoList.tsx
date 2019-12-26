@@ -1,11 +1,21 @@
 import React, { FunctionComponent } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { Todo } from 'src/types';
+import { View, Text, TouchableOpacity } from 'react-native';
+import { ApplicationState } from '../types';
+import { toggleTodo } from '../actions';
+import { ConnectedProps, connect } from 'react-redux';
 
-interface Props {
-  items: Todo[];
-  toggleTodo: (id: number) => void;
-}
+const mapStateToProps = (store: ApplicationState) => ({
+  items: store.todos.items,
+});
+
+const mapDispatchToProps = (dispatch: any) => ({
+  toggleTodo: (id: number) => dispatch(toggleTodo(id)),
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type Props = PropsFromRedux;
 
 const TodoList: FunctionComponent<Props> = ({ items, toggleTodo }) => (
   <View style={{ padding: 20 }}>
@@ -22,12 +32,5 @@ const TodoList: FunctionComponent<Props> = ({ items, toggleTodo }) => (
     ))}
   </View>
 );
-export default TodoList;
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });
+export default connector(TodoList);

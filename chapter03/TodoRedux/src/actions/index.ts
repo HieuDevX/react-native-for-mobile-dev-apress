@@ -1,5 +1,5 @@
 import { ActionCreator } from 'redux';
-import { AddTodoAction, ToggleTodoAction, ActionTypes, Todo } from '../types';
+import { AddTodoAction, ToggleTodoAction, ActionTypes } from '../types';
 
 let nextId = 0;
 export const addTodo: ActionCreator<AddTodoAction> = (text: string) => {
