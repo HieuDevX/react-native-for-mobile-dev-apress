@@ -3,12 +3,13 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { ApplicationState } from '../types';
 import { toggleTodo } from '../actions';
 import { ConnectedProps, connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 const mapStateToProps = (store: ApplicationState) => ({
   items: store.todos.items,
 });
 
-const mapDispatchToProps = (dispatch: any) => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
   toggleTodo: (id: number) => dispatch(toggleTodo(id)),
 });
 
